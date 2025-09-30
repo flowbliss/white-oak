@@ -3,6 +3,8 @@ name: Digger CI/CD
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   digger:
@@ -18,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Run Digger Plan
+      - name: Run Digger Plan (PR) or Apply (Merge)
         uses: diggerhq/digger@v0.6.126
         with:
           setup-aws: true
@@ -26,7 +28,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           no-backend: true
-          command: plan
+          command: ${{ github.event_name == 'pull_request' && 'plan' || 'apply' }}
           project: production
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
