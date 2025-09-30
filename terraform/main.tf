@@ -13,7 +13,7 @@ terraform {
   
   # Backend configuration to store state in S3
   backend "s3" {
-    bucket = "digger-terraform-state-bucket-${random_id.state_suffix.hex}"
+    bucket = "digger-terraform-state-bucket"
     key    = "production/terraform.tfstate"
     region = "us-east-1"
   }
@@ -25,7 +25,7 @@ provider "aws" {
 
 # Create S3 bucket for Terraform state storage
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "digger-terraform-state-bucket-${random_id.state_suffix.hex}"
+  bucket = "digger-terraform-state-bucket"
 
   tags = {
     Name        = "Digger Terraform State Bucket"
@@ -33,10 +33,6 @@ resource "aws_s3_bucket" "terraform_state" {
     ManagedBy   = "digger"
     Purpose     = "terraform-state"
   }
-}
-
-resource "random_id" "state_suffix" {
-  byte_length = 4
 }
 
 # S3 bucket module removed - this will destroy the existing bucket
