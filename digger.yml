@@ -1,0 +1,12 @@
+projects:
+  - name: production
+    dir: terraform
+    workflow: digger
+    terragrunt: false
+    include_patterns:
+      - "*.tf"
+      - "*.tfvars"
+    exclude_patterns:
+      - ".terraform/**"
+      - "*.tfstate*"
+
