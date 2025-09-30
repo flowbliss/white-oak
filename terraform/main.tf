@@ -23,17 +23,8 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# Create S3 bucket for Terraform state storage
-resource "aws_s3_bucket" "terraform_state" {
-  bucket = "digger-terraform-state-bucket"
-
-  tags = {
-    Name        = "Digger Terraform State Bucket"
-    Environment = "production"
-    ManagedBy   = "digger"
-    Purpose     = "terraform-state"
-  }
-}
+# S3 bucket for Terraform state storage created manually
+# Bucket name: digger-terraform-state-bucket
 
 # S3 bucket module removed - this will destroy the existing bucket
 # Adding a comment to ensure Digger detects this change
