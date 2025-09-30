@@ -5,6 +5,7 @@ projects:
     include_patterns:
       - "*.tf"
       - "*.tfvars"
+      - "../modules/**"
     exclude_patterns:
       - ".terraform/**"
       - "*.tfstate*"
