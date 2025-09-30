@@ -1,5 +1,6 @@
 # Terraform configuration for Digger CI/CD testing
 # This will create an S3 bucket with proper security configurations
+# Testing Digger apply functionality
 terraform {
   required_version = ">= 1.0"
   required_providers {
