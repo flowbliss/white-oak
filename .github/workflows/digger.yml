@@ -20,6 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Install Terragrunt
+        run: |
+          wget -q -O /usr/local/bin/terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.80.4/terragrunt_linux_amd64
+          chmod +x /usr/local/bin/terragrunt
+          terragrunt --version
+      
       - name: Run Digger Plan (PR) or Apply (Comment)
         uses: diggerhq/digger@v0.6.126
         with:
@@ -27,7 +33,6 @@ jobs:
           setup-terraform: true
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          no-backend: true
           command: ${{ github.event_name == 'issue_comment' && 'apply' || 'plan' }}
           project: production
         env:

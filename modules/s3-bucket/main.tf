@@ -1,73 +1,53 @@
-# S3 Bucket Module
-terraform {
-  required_version = ">= 1.0"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.1"
-    }
-  }
-}
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE THE S3 BUCKET
+# ---------------------------------------------------------------------------------------------------------------------
 
-# Create a random suffix for bucket name uniqueness
-resource "random_id" "bucket_suffix" {
-  byte_length = 4
-}
+resource "aws_s3_bucket" "bucket" {
+  bucket        = var.name
+  force_destroy = var.force_destroy
 
-# Create S3 bucket
-resource "aws_s3_bucket" "main" {
-  bucket = "digger-test-bucket-${random_id.bucket_suffix.hex}"
-  
   tags = {
-    Name        = "Digger Test Bucket"
-    Environment = "test"
-    ManagedBy   = "digger"
+    Name        = var.name
+    Environment = var.environment
+    ManagedBy   = "terragrunt"
     Project     = "white-oak"
   }
 }
 
-# Configure bucket versioning
-resource "aws_s3_bucket_versioning" "main" {
-  bucket = aws_s3_bucket.main.id
+# ---------------------------------------------------------------------------------------------------------------------
+# ENABLE VERSIONING
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "aws_s3_bucket_versioning" "versioning" {
+  bucket = aws_s3_bucket.bucket.id
   versioning_configuration {
-    status = "Enabled"
+    status = var.enable_versioning ? "Enabled" : "Suspended"
   }
 }
 
-# Configure bucket server-side encryption
-resource "aws_s3_bucket_server_side_encryption_configuration" "main" {
-  bucket = aws_s3_bucket.main.id
+# ---------------------------------------------------------------------------------------------------------------------
+# BLOCK PUBLIC ACCESS
+# ---------------------------------------------------------------------------------------------------------------------
 
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
-
-# Block public access
-resource "aws_s3_bucket_public_access_block" "main" {
-  bucket = aws_s3_bucket.main.id
-
+resource "aws_s3_bucket_public_access_block" "public_access" {
+  count                   = var.block_public_access ? 1 : 0
+  bucket                  = aws_s3_bucket.bucket.id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
-# Outputs
-output "bucket_name" {
-  value = aws_s3_bucket.main.bucket
-}
+# ---------------------------------------------------------------------------------------------------------------------
+# SERVER SIDE ENCRYPTION
+# ---------------------------------------------------------------------------------------------------------------------
 
-output "bucket_arn" {
-  value = aws_s3_bucket.main.arn
-}
+resource "aws_s3_bucket_server_side_encryption_configuration" "encryption" {
+  bucket = aws_s3_bucket.bucket.id
 
-output "bucket_domain_name" {
-  value = aws_s3_bucket.main.bucket_domain_name
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
