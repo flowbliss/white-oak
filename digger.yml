@@ -1,9 +1,5 @@
 projects:
   - name: production
-    dir: prod/us-east-1/s3-stack
+    dir: prod/us-east-1/s3-stack/.terragrunt-stack/s3_bucket
     terragrunt: true
-    plan_persistence:
-      enabled: true
-      upload_plan_destination: "aws"
-      upload_plan_destination_s3_bucket: "digger-terraform-state-bucket"
 

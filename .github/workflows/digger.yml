@@ -26,6 +26,12 @@ jobs:
           chmod +x /usr/local/bin/terragrunt
           terragrunt --version
       
+      - name: Generate Terragrunt Stack
+        run: |
+          cd prod/us-east-1/s3-stack
+          terragrunt --experiment stacks stack generate
+          ls -la .terragrunt-stack/s3_bucket/
+      
       - name: Run Digger Plan (PR) or Apply (Comment)
         uses: diggerhq/digger@v0.6.126
         with:
