@@ -3,14 +3,19 @@ projects:
     dir: prod/us-east-1/s3-stack
     workflow: terragrunt-stack
     plan_persistence:
-      enabled: false
+      enabled: true
 
 workflows:
   terragrunt-stack:
     plan:
       steps:
         - init
-        - run: terragrunt stack run plan | tee -a $DIGGER_OUT
+        - run: |
+            terragrunt stack run plan --out-dir=. | tee -a $DIGGER_OUT
+            # Copy the generated plan file to where Digger expects it
+            if [ -f ".terragrunt-stack/s3_bucket/tfplan.tfplan" ]; then
+              cp ".terragrunt-stack/s3_bucket/tfplan.tfplan" "$DIGGER_PLANFILE" 2>/dev/null || true
+            fi
     apply:
       steps:
         - init
