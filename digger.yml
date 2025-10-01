@@ -2,7 +2,7 @@ projects:
   - name: production
     dir: prod/us-east-1/s3-stack
     workflow: terragrunt-stack
-    terragrunt: true
+    terragrunt: false
     plan_persistence:
       enabled: true
 
