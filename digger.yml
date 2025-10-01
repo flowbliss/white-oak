@@ -1,13 +1,16 @@
 projects:
   - name: production
     dir: prod/us-east-1/s3-stack
-    terragrunt: true
-    include_patterns:
-      - "*.hcl"
-      - "*.tf"
-      - "*.tfvars"
-    exclude_patterns:
-      - ".terraform/**"
-      - "*.tfstate*"
-      - ".terragrunt-cache/**"
+    workflow: terragrunt-stack
+
+workflows:
+  terragrunt-stack:
+    plan:
+      steps:
+        - init
+        - run: terragrunt stack run plan | tee -a $DIGGER_OUT
+    apply:
+      steps:
+        - init
+        - run: terragrunt stack run apply | tee -a $DIGGER_OUT
 
