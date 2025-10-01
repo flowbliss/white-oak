@@ -12,7 +12,7 @@ workflows:
         - init
         - run: |
             terragrunt stack run plan --out-dir=. | tee -a $DIGGER_OUT
-            cp "tfplan.tfplan" "$DIGGER_PLANFILE"
+            cp ".terragrunt-stack/s3_bucket/tfplan.tfplan" "$DIGGER_PLANFILE"
     apply:
       steps:
         - init
