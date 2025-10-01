@@ -1,13 +1,13 @@
 projects:
   - name: production
     dir: prod/us-east-1/s3-stack
-    workflow: terragrunt-stack
+    workflow: default
     terragrunt: false
     plan_persistence:
-      enabled: false
+      enabled: true
 
 workflows:
-  terragrunt-stack:
+  default:
     plan:
       steps:
         - init
