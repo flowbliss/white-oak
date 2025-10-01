@@ -2,13 +2,15 @@ projects:
   - name: production
     dir: prod/us-east-1/s3-stack
     workflow: terragrunt-stack
+    plan_persistence:
+      enabled: true
 
 workflows:
   terragrunt-stack:
     plan:
       steps:
         - init
-        - run: terragrunt stack run plan | tee -a $DIGGER_OUT
+        - run: terragrunt stack run plan --out-dir=plan-output | tee -a $DIGGER_OUT
     apply:
       steps:
         - init
