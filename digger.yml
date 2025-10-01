@@ -1,19 +1,9 @@
 projects:
   - name: production
     dir: prod/us-east-1/s3-stack
-    workflow: default
-    terragrunt: false
+    terragrunt: true
     plan_persistence:
       enabled: true
-
-workflows:
-  default:
-    plan:
-      steps:
-        - init
-        - run: terragrunt stack run plan --out-dir=. | tee -a $DIGGER_OUT
-    apply:
-      steps:
-        - init
-        - run: terragrunt stack run apply | tee -a $DIGGER_OUT
+      upload_plan_destination: "aws"
+      upload_plan_destination_s3_bucket: "digger-terraform-state-bucket"
 

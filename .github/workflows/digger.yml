@@ -34,8 +34,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           no-backend: true
-          upload-plan-destination: 'aws'
-          upload-plan-destination-s3-bucket: 'digger-terraform-state-bucket'
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
