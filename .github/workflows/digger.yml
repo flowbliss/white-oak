@@ -20,11 +20,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Terraform and Terragrunt
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+      
+      - name: Setup Terragrunt
         uses: autero1/action-terragrunt@v3.0.2
         with:
-          terragrunt_version: 0.80.4
-          terraform_version: 1.6.0
+          terragrunt-version: 0.80.4
       
       - name: Run Digger Plan (PR) or Apply (Comment)
         uses: diggerhq/digger@v0.6.126
