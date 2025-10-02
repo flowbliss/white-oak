@@ -13,4 +13,7 @@ inputs = {
   name        = "white-oak-prod-s3-bucket"
   environment = "production"
   project     = "white-oak"
+  tags = {
+    Purpose = "testing-implicit-stack"
+  }
 }
