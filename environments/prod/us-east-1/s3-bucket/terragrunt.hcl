@@ -15,5 +15,6 @@ inputs = {
   project     = "white-oak"
   tags = {
     Purpose = "testing-implicit-stack"
+    Updated = "2025-10-02"
   }
 }
