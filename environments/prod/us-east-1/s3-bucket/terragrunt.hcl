@@ -1,6 +1,6 @@
-# Include the root terragrunt.hcl configuration
+# Include the root.hcl configuration
 include "root" {
-  path = find_in_parent_folders()
+  path = find_in_parent_folders("root.hcl")
 }
 
 # Configure this unit to use the S3 bucket module
@@ -13,4 +13,7 @@ inputs = {
   name        = "white-oak-prod-s3-bucket"
   environment = "production"
   project     = "white-oak"
+  tags = {
+    Purpose = "testing-implicit-stack"
+  }
 }
