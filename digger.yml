@@ -1,12 +1,18 @@
-projects:
-  - name: production
-    dir: terraform
-    terragrunt: false
-    include_patterns:
-      - "*.tf"
-      - "*.tfvars"
-      - "../modules/**"
-    exclude_patterns:
-      - ".terraform/**"
-      - "*.tfstate*"
+generate_projects:
+  blocks:
+    - block_name: prod
+      terragrunt: true
+      root_dir: "environments/prod/us-east-1/"
+      workflow: default
+
+workflows:
+  default:
+    plan:
+      steps:
+        - init
+        - plan
+    apply:
+      steps:
+        - init
+        - apply
 
