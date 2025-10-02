@@ -1,6 +1,6 @@
-# Include the root terragrunt.hcl configuration
+# Include the root.hcl configuration
 include "root" {
-  path = find_in_parent_folders()
+  path = find_in_parent_folders("root.hcl")
 }
 
 # Configure this unit to use the DynamoDB module
