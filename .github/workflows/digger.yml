@@ -30,6 +30,8 @@ jobs:
         with:
           setup-aws: true
           setup-terragrunt: true
+          setup-terraform: true
+          terraform-version: 1.6.0
           terragrunt-version: 0.80.4
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
